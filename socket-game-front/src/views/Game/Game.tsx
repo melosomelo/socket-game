@@ -5,8 +5,13 @@ import Racket from "../../components/Racket/Racket";
 function Game() {
   return (
     <>
-      <Racket color="red" scorePosition="topLeft" />
-      <Racket color="blue" controlledByPlayer scorePosition="bottomRight" />
+      <Racket color="red" scorePosition="topLeft" wrapperPosition="top" />
+      <Racket
+        color="blue"
+        controlledByPlayer
+        scorePosition="bottomRight"
+        wrapperPosition="bottom"
+      />
     </>
   );
 }

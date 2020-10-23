@@ -1,12 +1,19 @@
 import styled from "styled-components";
 
-export const Wrapper = styled.div`
+interface WrapperProps {
+  wrapperPosition: "top" | "bottom";
+}
+
+export const Wrapper = styled.div<WrapperProps>`
   width: 100%;
   min-height: 150px;
 
-  position: relative;
+  position: absolute;
 
   padding: 1rem 2rem;
+
+  ${(props) =>
+    props.wrapperPosition === "top" ? "top: 80px" : "bottom: 80px"};
 `;
 
 interface ScoreProps {

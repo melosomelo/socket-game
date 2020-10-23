@@ -7,26 +7,27 @@ interface Props {
   color: string;
   controlledByPlayer?: boolean;
   scorePosition: "topLeft" | "bottomRight";
+  wrapperPosition: "top" | "bottom";
 }
 
 const Racket: React.FC<Props> = ({
   color,
   controlledByPlayer,
   scorePosition,
+  wrapperPosition,
 }) => {
   const [leftOffset, setLeftOffset] = useState(() => {
     return (document.documentElement.clientWidth - 400) / 2;
   });
 
   useEffect(() => {
-    console.log("eai");
     document.onkeydown = (event) => {
       moveRacket(event, setLeftOffset);
     };
   }, []);
 
   return (
-    <Wrapper>
+    <Wrapper wrapperPosition={wrapperPosition}>
       <Score scoreColor={color} scorePosition={scorePosition}>
         0
       </Score>
