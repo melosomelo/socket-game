@@ -15,6 +15,9 @@ function moveRacket(
       console.log("Moving right");
       setLeftOffset((prevState) => prevState + 12);
       break;
+    default:
+      console.log("eai");
+      break;
   }
 }
 

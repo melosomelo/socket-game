@@ -22,7 +22,7 @@ interface ScoreProps {
 }
 
 export const Score = styled.h1<ScoreProps>`
-  font-size: 4.5rem;
+  font-size: 5.5rem;
 
   color: ${(props) => props.scoreColor};
 
