@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import io from "socket.io-client";
+import socket from "./socket";
 
 import Loading from "./views/Loading/Loading";
 import Game from "./views/Game/Game";
@@ -16,8 +16,6 @@ function App() {
   const [gameStatus, setGameStatus] = useState<GameStatus>("Loading...");
   const [playerColor, setPlayerColor] = useState<string | null>(null);
   useEffect(() => {
-    const socket = io("http://localhost:5000");
-
     socket.on("player 1 connected", () => {
       setGameStatus("Player 1 connected");
     });
@@ -34,7 +32,6 @@ function App() {
       if (color === "blue") {
         socket.emit("match start");
       }
-
       setPlayerColor(color);
     });
 
@@ -46,6 +43,7 @@ function App() {
       socket.disconnect();
     };
   }, []);
+
   if (gameStatus === "Loading...") {
     return <Loading />;
   } else if (gameStatus === "Player 1 connected") {
