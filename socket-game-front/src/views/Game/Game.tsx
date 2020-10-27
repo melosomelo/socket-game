@@ -1,22 +1,28 @@
-import React, { useEffect, useRef } from "react";
-import io from "socket.io-client";
+import React, { useEffect, useState } from "react";
 
 import Racket from "../../components/Racket/Racket";
 import Ball from "../../components/Ball/Ball";
 
-function Game() {
-  const socket = io("http://localhost:5000");
+interface Props {
+  playerColor: string | null;
+}
+
+const Game: React.FC<Props> = ({ playerColor }) => {
   return (
     <>
-      <Racket color="red" scorePosition="topLeft" wrapperPosition="top" />
+      <Racket
+        color={playerColor === "blue" ? "red" : "blue"}
+        scorePosition="topLeft"
+        wrapperPosition="top"
+      />
       <Ball />
       <Racket
-        color="blue"
+        color={playerColor as string}
         controlledByPlayer
         scorePosition="bottomRight"
         wrapperPosition="bottom"
       />
     </>
   );
-}
+};
 export default Game;

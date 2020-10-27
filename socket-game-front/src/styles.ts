@@ -18,6 +18,10 @@ const GlobalStyles = createGlobalStyle`
     overflow: hidden;
 
   }
+
+  h1.message {
+    font-size: 4rem;
+  }
 `;
 
 export default GlobalStyles;
