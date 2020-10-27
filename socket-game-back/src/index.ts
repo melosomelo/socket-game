@@ -9,31 +9,55 @@ const app = express();
 const server = http.createServer(app);
 const io = socketio(server);
 
-let connectedPlayers = 0;
+interface Player {
+  socket: socketio.Socket;
+  color: string;
+}
+
+let connectedPlayers: Array<Player> = [];
+let matchHasStarted = false;
 
 io.on("connection", (socket) => {
-  console.log(connectedPlayers);
-  if (connectedPlayers === 0) {
+  if (connectedPlayers.length === 0) {
     io.emit("player 1 connected");
+
     //assigning the color of the first player
     socket.emit("assign color", "red");
-    connectedPlayers += 1;
-  } else if (connectedPlayers === 1) {
+
+    connectedPlayers.push({ socket, color: "red" });
+  } else if (connectedPlayers.length === 1) {
     io.emit("player 2 connected");
+
     socket.emit("assign color", "blue");
-    connectedPlayers += 1;
+
+    connectedPlayers.push({
+      socket,
+      color: "blue",
+    });
   } else {
     socket.emit("match is full");
   }
 
   socket.on("match start", () => {
-    console.log("match is starting!");
     io.emit("match start");
+
+    matchHasStarted = true;
   });
 
   socket.on("disconnect", () => {
     io.emit("player disconnected!");
-    connectedPlayers -= 1;
+    /* We need to worry about a disconnect in two cases: 
+      1. The game is almost starting. The server is awaiting the socket from the client to officially start 
+      the match.
+
+      2. The game has already begun and the players are in the middle of the match. 
+      The other cases are not relevant and don't need special care 
+      */
+    const disconnectedPlayerIndex = connectedPlayers.findIndex(
+      (player) => player.socket.id === socket.id
+    );
+    connectedPlayers.splice(disconnectedPlayerIndex);
+    console.log(connectedPlayers);
   });
 });
 
