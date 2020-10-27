@@ -14,11 +14,18 @@ interface Player {
   color: string;
 }
 
+type GameStatus =
+  | "Player 1 connected"
+  | "Player 2 connected"
+  | "Start"
+  | "Waiting for connection";
+
 let connectedPlayers: Array<Player> = [];
-let matchHasStarted = false;
+let gameStatus: GameStatus = "Waiting for connection";
 
 io.on("connection", (socket) => {
   if (connectedPlayers.length === 0) {
+    gameStatus = "Player 1 connected";
     io.emit("player 1 connected");
 
     //assigning the color of the first player
@@ -27,6 +34,7 @@ io.on("connection", (socket) => {
     connectedPlayers.push({ socket, color: "red" });
   } else if (connectedPlayers.length === 1) {
     io.emit("player 2 connected");
+    gameStatus = "Player 2 connected";
 
     socket.emit("assign color", "blue");
 
@@ -40,8 +48,7 @@ io.on("connection", (socket) => {
 
   socket.on("match start", () => {
     io.emit("match start");
-
-    matchHasStarted = true;
+    gameStatus = "Start";
   });
 
   socket.on("disconnect", () => {
@@ -51,13 +58,15 @@ io.on("connection", (socket) => {
       the match.
 
       2. The game has already begun and the players are in the middle of the match. 
+
       The other cases are not relevant and don't need special care 
       */
     const disconnectedPlayerIndex = connectedPlayers.findIndex(
       (player) => player.socket.id === socket.id
     );
-    connectedPlayers.splice(disconnectedPlayerIndex);
-    console.log(connectedPlayers);
+    const [disconnectedPlayer] = connectedPlayers.splice(
+      disconnectedPlayerIndex
+    );
   });
 });
 
