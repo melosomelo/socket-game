@@ -15,3 +15,15 @@ So, I create this project that combines these two objectives into one. It's a mu
 ## What I took from this experience
 
 Nothing so far. I just started!
+
+## Project's Mockups
+
+Here are some screens of the game that I made on Figma:
+
+![First screen](https://i.postimg.cc/62pLpDVX/Desktop-1.png)
+
+![Second screen](https://i.postimg.cc/5YK5YnpF/Desktop-2.png)
+
+![Third screen](https://i.postimg.cc/gLwVv8Bt/Desktop-3.png)
+
+![Fourth screen](https://i.postimg.cc/qggxVHMc/Desktop-4.png)
