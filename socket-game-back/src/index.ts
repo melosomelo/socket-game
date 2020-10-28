@@ -58,7 +58,6 @@ io.on("connection", (socket) => {
     const otherPlayer = connectedPlayers.find(
       (player) => player.socket.id !== socket.id
     );
-    console.log(otherPlayer.socket, socket);
 
     otherPlayer.socket.emit("other player movement", direction);
   });
