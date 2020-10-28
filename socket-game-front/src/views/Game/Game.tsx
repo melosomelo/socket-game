@@ -14,6 +14,7 @@ const Game: React.FC<Props> = ({ playerColor }) => {
         color={playerColor === "blue" ? "red" : "blue"}
         scorePosition="topLeft"
         wrapperPosition="top"
+        controlledByPlayer={false}
       />
       <Ball />
       <Racket

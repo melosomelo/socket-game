@@ -20,6 +20,8 @@ type GameStatus =
   | "Start"
   | "Waiting for connection";
 
+type Direction = "left" | "right";
+
 let connectedPlayers: Array<Player> = [];
 let gameStatus: GameStatus = "Waiting for connection";
 
@@ -46,9 +48,19 @@ io.on("connection", (socket) => {
     socket.emit("match is full");
   }
 
+  //player 2 signals that he is connected and the game should start
   socket.on("match start", () => {
     io.emit("match start");
     gameStatus = "Start";
+  });
+
+  socket.on("move racket", (direction: Direction) => {
+    const otherPlayer = connectedPlayers.find(
+      (player) => player.socket.id !== socket.id
+    );
+    console.log(otherPlayer.socket, socket);
+
+    otherPlayer.socket.emit("other player movement", direction);
   });
 
   socket.on("disconnect", () => {

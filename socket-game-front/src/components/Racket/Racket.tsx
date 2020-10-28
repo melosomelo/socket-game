@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { Wrapper, Score, Rectangle } from "./styles";
+import socket from "../../socket";
 
 import moveRacket from "../../utils/moveRacket";
 
 interface Props {
   color: string;
-  controlledByPlayer?: boolean;
+  controlledByPlayer: boolean;
   scorePosition: "topLeft" | "bottomRight";
   wrapperPosition: "top" | "bottom";
 }
+
+type Direction = "right" | "left";
 
 const Racket: React.FC<Props> = ({
   color,
@@ -20,10 +23,23 @@ const Racket: React.FC<Props> = ({
     return (document.documentElement.clientWidth - 400) / 2;
   });
 
+  const [acceptSocket, setAcceptSocket] = useState(true);
+
   useEffect(() => {
-    document.onkeydown = (event) => {
-      moveRacket(event, setLeftOffset);
-    };
+    if (controlledByPlayer) {
+      document.onkeydown = (event) => {
+        moveRacket(event, setLeftOffset);
+      };
+    }
+
+    socket.on("other player movement", (direction: Direction) => {
+      if (!controlledByPlayer) {
+        const keydownEvent = new KeyboardEvent("onkeydown", {
+          key: direction === "left" ? "ArrowLeft" : "ArrowRight",
+        });
+        moveRacket(keydownEvent, setLeftOffset, false);
+      }
+    });
   }, []);
 
   return (
