@@ -20,10 +20,10 @@ Nothing so far. I just started!
 
 Here are some screens of the game that I made on Figma:
 
-![First screen](https://i.postimg.cc/62pLpDVX/Desktop-1.png)
+[![Desktop-1.png](https://i.postimg.cc/sXpnwzvv/Desktop-1.png)](https://postimg.cc/62pLpDVX)
 
-![Second screen](https://i.postimg.cc/5YK5YnpF/Desktop-2.png)
+[![Desktop-2.png](https://i.postimg.cc/Zn4wQQdj/Desktop-2.png)](https://postimg.cc/5YK5YnpF)
 
-![Third screen](https://i.postimg.cc/gLwVv8Bt/Desktop-3.png)
+[![Desktop-3.png](https://i.postimg.cc/SRdgbGL4/Desktop-3.png)](https://postimg.cc/gLwVv8Bt)
 
-![Fourth screen](https://i.postimg.cc/qggxVHMc/Desktop-4.png)
+[![Desktop-4.png](https://i.postimg.cc/DfPjG79N/Desktop-4.png)](https://postimg.cc/qggxVHMc)
