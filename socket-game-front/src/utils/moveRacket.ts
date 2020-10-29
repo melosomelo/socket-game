@@ -6,14 +6,14 @@ import socket from "../socket";
 */
 
 function moveRacket(
-  event: KeyboardEvent,
+  direction: RacketDirection,
   setLeftOffset: React.Dispatch<React.SetStateAction<number>>, //the setState function returned by the hook.
   emitSocket = true
 ) {
   const clientWidth = document.documentElement.clientWidth;
-  switch (event.key) {
+  switch (direction) {
     //still no validation for the limits of the viewport
-    case "ArrowLeft":
+    case "left":
       //if moving left, then we need to decrease offset
       setLeftOffset((prevState) => {
         if (prevState - 12 < 0) {
@@ -25,7 +25,7 @@ function moveRacket(
         socket.emit("move racket", "left");
       }
       break;
-    case "ArrowRight":
+    case "right":
       //if moving right, we need to increase it
       setLeftOffset((prevState) => {
         /* The maximum value for the LeftOffset is clientWidth - 400, here's why: 

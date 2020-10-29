@@ -3,6 +3,7 @@ import { Wrapper, Score, Rectangle } from "./styles";
 import socket from "../../socket";
 
 import moveRacket from "../../utils/moveRacket";
+import useInterval from "../../hooks/useInterval";
 
 interface Props {
   color: string;
@@ -10,8 +11,6 @@ interface Props {
   scorePosition: "topLeft" | "bottomRight";
   wrapperPosition: "top" | "bottom";
 }
-
-type Direction = "right" | "left";
 
 const Racket: React.FC<Props> = ({
   color,
@@ -23,21 +22,35 @@ const Racket: React.FC<Props> = ({
     return (document.documentElement.clientWidth - 400) / 2;
   });
 
-  const [acceptSocket, setAcceptSocket] = useState(true);
+  const [
+    currentDirection,
+    setCurrentDirection,
+  ] = useState<null | RacketDirection>(null);
+
+  useInterval(() => {
+    if (currentDirection !== null) {
+      moveRacket(currentDirection, setLeftOffset, true);
+    }
+  }, 1000 / 24);
 
   useEffect(() => {
+    //we only set the key capture event if this racket is controlled by the player
     if (controlledByPlayer) {
-      document.onkeydown = (event) => {
-        moveRacket(event, setLeftOffset);
+      document.onkeydown = (event: KeyboardEvent) => {
+        switch (event.key) {
+          case "ArrowLeft":
+            setCurrentDirection("left");
+            break;
+          case "ArrowRight":
+            setCurrentDirection("right");
+            break;
+        }
       };
     }
 
-    socket.on("other player movement", (direction: Direction) => {
+    socket.on("other player movement", (direction: RacketDirection) => {
       if (!controlledByPlayer) {
-        const keydownEvent = new KeyboardEvent("onkeydown", {
-          key: direction === "left" ? "ArrowLeft" : "ArrowRight",
-        });
-        moveRacket(keydownEvent, setLeftOffset, false);
+        moveRacket(direction, setLeftOffset, false);
       }
     });
   }, []);

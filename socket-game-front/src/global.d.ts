@@ -1,0 +1,1 @@
+type RacketDirection = "right" | "left";
