@@ -13,7 +13,7 @@ export const Wrapper = styled.div<WrapperProps>`
   padding: 1rem 2rem;
 
   ${(props) =>
-    props.wrapperPosition === "top" ? "top: 80px" : "bottom: 80px"};
+    props.wrapperPosition === "top" ? "top: 20px" : "bottom: 20px"};
 `;
 
 interface ScoreProps {
