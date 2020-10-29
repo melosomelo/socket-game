@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Wrapper, Score, Rectangle } from "./styles";
 import socket from "../../socket";
 
 import moveRacket from "../../utils/moveRacket";
+import { Context as MovementContext } from "../../context/MovementContext";
 
 interface Props {
   color: string;
@@ -22,13 +23,29 @@ const Racket: React.FC<Props> = ({
   const [leftOffset, setLeftOffset] = useState(() => {
     return (document.documentElement.clientWidth - 400) / 2;
   });
-
-  const [acceptSocket, setAcceptSocket] = useState(true);
+  const { queueMovement } = useContext(MovementContext);
 
   useEffect(() => {
     if (controlledByPlayer) {
       document.onkeydown = (event) => {
-        moveRacket(event, setLeftOffset);
+        let payload: RacketMovement = {
+          event,
+          setLeftOffset,
+          emitSocket: false,
+        };
+
+        const movement: Movement<RacketMovement> = {
+          movementHandler: moveRacket,
+          payload,
+        };
+
+        const isMovement =
+          event.key === "ArrowLeft" || event.key === "ArrowRight";
+        //we need to check queueMovement because it's an optional propert in the context props interface
+        if (queueMovement && isMovement) {
+          queueMovement(movement);
+        }
+        moveRacket({ event, setLeftOffset, emitSocket: true });
       };
     }
 
@@ -37,7 +54,19 @@ const Racket: React.FC<Props> = ({
         const keydownEvent = new KeyboardEvent("onkeydown", {
           key: direction === "left" ? "ArrowLeft" : "ArrowRight",
         });
-        moveRacket(keydownEvent, setLeftOffset, false);
+
+        moveRacket({ event: keydownEvent, setLeftOffset, emitSocket: false });
+
+        if (queueMovement) {
+          queueMovement({
+            movementHandler: moveRacket,
+            payload: {
+              event: keydownEvent,
+              setLeftOffset,
+              emitSocket: true,
+            },
+          });
+        }
       }
     });
   }, []);

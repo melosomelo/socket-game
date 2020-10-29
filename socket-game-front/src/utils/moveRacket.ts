@@ -5,11 +5,8 @@ import socket from "../socket";
   pressing the arrow keys. Therefore, we need the 'emitSocket' parameter.
 */
 
-function moveRacket(
-  event: KeyboardEvent,
-  setLeftOffset: React.Dispatch<React.SetStateAction<number>>, //the setState function returned by the hook.
-  emitSocket = true
-) {
+function moveRacket(movement: RacketMovement) {
+  const { event, setLeftOffset, emitSocket } = movement;
   const clientWidth = document.documentElement.clientWidth;
   switch (event.key) {
     //still no validation for the limits of the viewport
