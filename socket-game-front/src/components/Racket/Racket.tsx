@@ -45,7 +45,7 @@ const Racket: React.FC<Props> = ({
         if (queueMovement && isMovement) {
           queueMovement(movement);
         }
-        moveRacket({ event, setLeftOffset, emitSocket: true });
+        //moveRacket({ event, setLeftOffset, emitSocket: true });
       };
     }
 
@@ -55,7 +55,7 @@ const Racket: React.FC<Props> = ({
           key: direction === "left" ? "ArrowLeft" : "ArrowRight",
         });
 
-        moveRacket({ event: keydownEvent, setLeftOffset, emitSocket: false });
+        //moveRacket({ event: keydownEvent, setLeftOffset, emitSocket: false });
 
         if (queueMovement) {
           queueMovement({

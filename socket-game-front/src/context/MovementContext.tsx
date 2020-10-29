@@ -1,4 +1,6 @@
-import React, { createContext, useEffect, useState } from "react";
+import React, { createContext, useEffect, useState, useMemo } from "react";
+
+import useInterval from "../hooks/useInterval";
 
 // This component is responsible for moving the parts of the game.
 // The components that want to move themselves need to speak to this component and queue their movement.
@@ -14,7 +16,18 @@ const Context = createContext<Partial<Context>>({});
 
 const MovementProvider: React.FC = ({ children }) => {
   const [movements, setMovements] = useState<Movement<any>[]>([]);
-  console.log(movements);
+
+  useInterval(() => {
+    if (movements.length > 0) {
+      const nextMovement = movements[0];
+      nextMovement.movementHandler(nextMovement.payload);
+      setMovements((prevState) => {
+        const newState = [...prevState];
+        newState.shift();
+        return newState;
+      });
+    }
+  }, 1000 / 24);
 
   function queueMovement(movement: Movement<any>) {
     setMovements((prevState) => [movement, ...prevState]);
