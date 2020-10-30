@@ -1,13 +1,18 @@
 import styled from "styled-components";
 
-export const Ball = styled.div`
+interface BallProps {
+  left: number;
+  top: number;
+}
+
+export const Ball = styled.div<BallProps>`
   width: 42px;
   height: 42px;
 
   background-color: white;
 
   position: absolute;
-  left: 50%;
-  top: 50%;
+  left: ${(props) => props.left}px;
+  top: ${(props) => props.top}px;
   transform: translate(-50%, -50%);
 `;

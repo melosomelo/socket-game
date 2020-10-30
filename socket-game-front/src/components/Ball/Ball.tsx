@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 
 import { Ball } from "./styles";
+import useInterval from "../../hooks/useInterval";
+import moveBall from "../../utils/moveBall";
 
 /* When the game first starts, we need to set a few things: 
   1. The direction the ball will first move (up or down)
@@ -8,28 +10,44 @@ import { Ball } from "./styles";
   or right.
   */
 
-type BallDirection = "up" | "down";
-
 const BallComponent: React.FC = () => {
-  const [firstDirection, setFirstDirection] = useState<BallDirection>(() => {
-    const randomNumber = Math.random();
+  const [direction, setDirection] = useState<BallDirection>(() => {
+    let direction: BallDirection = {
+      y: null,
+      x: null,
+    };
+
+    let randomNumber = Math.random();
     if (randomNumber < 0.5) {
-      return "down";
+      direction.y = "down";
+    } else {
+      direction.y = "up";
     }
-    return "up";
+
+    randomNumber = Math.random();
+    if (randomNumber < 0.5) {
+      direction.x = "right";
+    } else {
+      direction.x = "left";
+    }
+    return direction;
   });
 
-  const [angle, setAngle] = useState(() => {
-    //first, right or left?
-    const direction = Math.random() < 0.5 ? "right" : "left";
-    //now, the angle
-    let angle = Math.random() * 45;
-    if (direction === "left") angle *= -1;
-
-    return angle;
+  //setting its initial position
+  const [leftOffset, setLeftOffset] = useState(() => {
+    return (document.documentElement.clientWidth - 42) / 2;
+  });
+  const [topOffset, setTopOffset] = useState(() => {
+    return (document.documentElement.clientHeight - 42) / 2;
   });
 
-  return <Ball />;
+  console.log(leftOffset, topOffset);
+
+  useInterval(() => {
+    moveBall(direction, setLeftOffset, setTopOffset);
+  }, 1000 / 24);
+
+  return <Ball left={leftOffset} top={topOffset} />;
 };
 
 export default BallComponent;
