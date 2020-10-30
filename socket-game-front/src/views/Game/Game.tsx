@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 
 import Racket from "../../components/Racket/Racket";
 import Ball from "../../components/Ball/Ball";
@@ -10,6 +10,7 @@ interface Props {
 
 const Game: React.FC<Props> = ({ playerColor }) => {
   const { leftOffset, topOffset } = useBallMovement();
+
   return (
     <>
       <Racket
