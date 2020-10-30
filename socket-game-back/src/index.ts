@@ -2,8 +2,6 @@ import express from "express";
 import http from "http";
 import socketio from "socket.io";
 
-import websockets from "./websockets";
-
 const app = express();
 
 const server = http.createServer(app);
@@ -59,7 +57,7 @@ io.on("connection", (socket) => {
       (player) => player.socket.id !== socket.id
     );
 
-    otherPlayer.socket.emit("other player movement", direction);
+    otherPlayer?.socket.emit("other player movement", direction);
   });
 
   socket.on("disconnect", () => {
