@@ -5,14 +5,16 @@ interface BallProps {
   top: number;
 }
 
-export const Ball = styled.div<BallProps>`
+export const Ball = styled.div.attrs<BallProps>((props) => ({
+  style: {
+    left: `${props.left}px`,
+    top: `${props.top}px`,
+  },
+}))<BallProps>`
   width: 42px;
   height: 42px;
 
   background-color: white;
 
   position: absolute;
-  left: ${(props) => props.left}px;
-  top: ${(props) => props.top}px;
-  transform: translate(-50%, -50%);
 `;

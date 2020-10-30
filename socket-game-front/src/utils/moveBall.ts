@@ -10,15 +10,15 @@ function moveBall(
   switch (direction.x) {
     case "left":
       setLeftOffset((prevState) => {
-        if (prevState - 5 < 21) return 21;
+        if (prevState - 5 < 0) return 0;
 
         return prevState - 5;
       });
       break;
     case "right":
       setLeftOffset((prevState) => {
-        if (prevState + 5 > clientWidth - 21) {
-          return clientWidth - 21;
+        if (prevState + 5 > clientWidth - 42) {
+          return clientWidth - 42;
         }
 
         return prevState + 5;
@@ -29,14 +29,14 @@ function moveBall(
   switch (direction.y) {
     case "up":
       setTopOffset((prevState) => {
-        if (prevState - 5 < 21) return 21;
+        if (prevState - 5 < 0) return 0;
 
         return prevState - 5;
       });
       break;
     case "down":
       setTopOffset((prevState) => {
-        if (prevState + 5 > clientHeight - 21) return clientHeight - 21;
+        if (prevState + 5 > clientHeight - 42) return clientHeight - 42;
 
         return prevState + 5;
       });

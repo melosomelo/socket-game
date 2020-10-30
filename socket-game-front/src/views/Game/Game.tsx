@@ -2,12 +2,14 @@ import React, { useEffect, useState } from "react";
 
 import Racket from "../../components/Racket/Racket";
 import Ball from "../../components/Ball/Ball";
+import useBallMovement from "../../hooks/useBallMovement";
 
 interface Props {
   playerColor: string | null;
 }
 
 const Game: React.FC<Props> = ({ playerColor }) => {
+  const { leftOffset, topOffset } = useBallMovement();
   return (
     <>
       <Racket
@@ -16,7 +18,7 @@ const Game: React.FC<Props> = ({ playerColor }) => {
         wrapperPosition="top"
         controlledByPlayer={false}
       />
-      <Ball />
+      <Ball leftOffset={leftOffset} topOffset={topOffset} />
       <Racket
         color={playerColor as string}
         controlledByPlayer
