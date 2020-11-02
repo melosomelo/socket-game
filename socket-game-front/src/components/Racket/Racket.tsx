@@ -1,9 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Wrapper, Score, Rectangle } from "./styles";
-import socket from "../../socket";
-
-import moveRacket from "../../utils/moveRacket";
-import useInterval from "../../hooks/useInterval";
 
 interface Props {
   color: string;

@@ -12,3 +12,8 @@ type GameStatus =
   | "Waiting for connection";
 
 type RacketDirection = "left" | "right";
+
+interface BallDirection {
+  x: "left" | "right" | null;
+  y: "up" | "down" | null;
+}

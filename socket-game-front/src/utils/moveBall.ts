@@ -1,5 +1,3 @@
-import socket from "../socket";
-
 function moveBall(
   direction: BallDirection,
   setLeftOffset: React.Dispatch<React.SetStateAction<number>>, //set x coordinate

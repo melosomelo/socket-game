@@ -15,6 +15,10 @@ type GameStatus =
 function App() {
   const [gameStatus, setGameStatus] = useState<GameStatus>("Loading...");
   const [playerColor, setPlayerColor] = useState<string | null>(null);
+  const [ballDirection, setBallDirection] = useState<BallDirection | null>(
+    null
+  );
+
   useEffect(() => {
     socket.on("player 1 connected", () => {
       setGameStatus("Player 1 connected");
@@ -35,8 +39,10 @@ function App() {
       setPlayerColor(color);
     });
 
-    socket.on("match start", () => {
+    socket.on("match start", (direction: BallDirection) => {
       setGameStatus("Start");
+
+      setBallDirection(direction);
     });
 
     return () => {
@@ -51,7 +57,13 @@ function App() {
   } else if (gameStatus === "Player 2 connected") {
     return <BothPlayersConnected />;
   } else if (gameStatus === "Start") {
-    return <Game playerColor={playerColor} />;
+    return (
+      <Game
+        playerColor={playerColor}
+        ballDirection={ballDirection as BallDirection}
+        setBallDirection={setBallDirection}
+      />
+    );
   }
 
   return <h1>EAi</h1>;

@@ -1,11 +1,17 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
 import useInterval from "../hooks/useInterval";
 
 import moveBall from "../utils/moveBall";
 import handleCollision from "../utils/handleCollision";
 
-function useBallMovement() {
+type setBallDirectionFN = React.Dispatch<React.SetStateAction<BallDirection>>;
+
+function useBallMovement(
+  ballDirection: BallDirection,
+  setBallDirection: React.Dispatch<React.SetStateAction<BallDirection | null>>
+) {
+  console.log(ballDirection, setBallDirection);
   const [direction, setDirection] = useState<BallDirection>(() => {
     let direction: BallDirection = {
       y: null,
@@ -37,10 +43,10 @@ function useBallMovement() {
   });
 
   useInterval(() => {
-    moveBall(direction, setLeftOffset, setTopOffset);
+    moveBall(ballDirection, setLeftOffset, setTopOffset);
     handleCollision(
-      direction,
-      setDirection,
+      ballDirection,
+      setBallDirection as setBallDirectionFN,
       leftOffset,
       setLeftOffset,
       topOffset,

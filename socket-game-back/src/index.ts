@@ -1,7 +1,8 @@
 import express from "express";
 import http from "http";
 import socketio from "socket.io";
-import { Player, GameStatus, RacketDirection } from "./global";
+import { Player, GameStatus, RacketDirection, BallDirection } from "./global";
+import setBallInitialDirection from "./util/setBallInitialDirection";
 
 const app = express();
 
@@ -36,7 +37,10 @@ io.on("connection", (socket) => {
 
   //player 2 signals that he is connected and the game should start
   socket.on("match start", () => {
-    io.emit("match start");
+    // Defining the initial directions of the ball
+    const ballInitialDirection: BallDirection = setBallInitialDirection();
+
+    io.emit("match start", ballInitialDirection);
     gameStatus = "Start";
   });
 
