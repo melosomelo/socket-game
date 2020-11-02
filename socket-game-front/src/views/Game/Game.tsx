@@ -3,9 +3,7 @@ import React, { useEffect, useState, useMemo, Key } from "react";
 import Racket from "../../components/Racket/Racket";
 import Ball from "../../components/Ball/Ball";
 import useBallMovement from "../../hooks/useBallMovement";
-import useInterval from "../../hooks/useInterval";
-import moveRacket from "../../utils/moveRacket";
-import socket from "../../socket";
+import useRacketMovement from "../../hooks/useRacketMovement";
 
 interface Props {
   playerColor: string | null;
@@ -13,7 +11,10 @@ interface Props {
 
 const Game: React.FC<Props> = ({ playerColor }) => {
   const { leftOffset, topOffset } = useBallMovement();
+  const { playerLeftOffset, oponentLeftOffset } = useRacketMovement();
+  console.log("eai");
 
+  /*
   const [playerLeftOffset, setPlayerLeftOffset] = useState(() => {
     return (document.documentElement.clientWidth - 400) / 2;
   });
@@ -50,6 +51,7 @@ const Game: React.FC<Props> = ({ playerColor }) => {
       moveRacket(playerDirection, setPlayerLeftOffset, true);
     }
   }, 1000 / 24);
+  */
 
   return (
     <>
