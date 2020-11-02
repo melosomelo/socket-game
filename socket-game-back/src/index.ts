@@ -2,23 +2,12 @@ import express from "express";
 import http from "http";
 import socketio from "socket.io";
 
+import { GameStatus, Player, RacketDirection } from "./global";
+
 const app = express();
 
 const server = http.createServer(app);
 const io = socketio(server);
-
-interface Player {
-  socket: socketio.Socket;
-  color: string;
-}
-
-type GameStatus =
-  | "Player 1 connected"
-  | "Player 2 connected"
-  | "Start"
-  | "Waiting for connection";
-
-type Direction = "left" | "right";
 
 let connectedPlayers: Array<Player> = [];
 let gameStatus: GameStatus = "Waiting for connection";
@@ -52,7 +41,7 @@ io.on("connection", (socket) => {
     gameStatus = "Start";
   });
 
-  socket.on("move racket", (direction: Direction) => {
+  socket.on("move racket", (direction: RacketDirection) => {
     const otherPlayer = connectedPlayers.find(
       (player) => player.socket.id !== socket.id
     );
