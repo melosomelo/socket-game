@@ -1,8 +1,7 @@
 import express from "express";
 import http from "http";
 import socketio from "socket.io";
-
-import { GameStatus, Player, RacketDirection } from "./global";
+import { Player, GameStatus, RacketDirection } from "./global";
 
 const app = express();
 

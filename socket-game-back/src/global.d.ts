@@ -1,4 +1,4 @@
-import { Socket } from "socket.io";
+import { Socket } from "dgram";
 
 interface Player {
   socket: SocketIO.Socket;
