@@ -10,6 +10,7 @@ interface Props {
   controlledByPlayer: boolean;
   scorePosition: "topLeft" | "bottomRight";
   wrapperPosition: "top" | "bottom";
+  leftOffset: number;
 }
 
 const Racket: React.FC<Props> = ({
@@ -17,16 +18,20 @@ const Racket: React.FC<Props> = ({
   controlledByPlayer,
   scorePosition,
   wrapperPosition,
+  leftOffset,
 }) => {
+  /*
   const [leftOffset, setLeftOffset] = useState(() => {
     return (document.documentElement.clientWidth - 400) / 2;
   });
+  */
 
   const [
     currentDirection,
     setCurrentDirection,
   ] = useState<null | RacketDirection>(null);
 
+  /*
   useInterval(() => {
     if (currentDirection !== null) {
       moveRacket(currentDirection, setLeftOffset, true);
@@ -54,6 +59,7 @@ const Racket: React.FC<Props> = ({
       }
     });
   }, []);
+  */
 
   return (
     <Wrapper wrapperPosition={wrapperPosition}>
