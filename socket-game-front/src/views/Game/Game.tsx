@@ -12,7 +12,6 @@ interface Props {
 const Game: React.FC<Props> = ({ playerColor }) => {
   const { leftOffset, topOffset } = useBallMovement();
   const { playerLeftOffset, oponentLeftOffset } = useRacketMovement();
-  console.log("eai");
 
   /*
   const [playerLeftOffset, setPlayerLeftOffset] = useState(() => {
