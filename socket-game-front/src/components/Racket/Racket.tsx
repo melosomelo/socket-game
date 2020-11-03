@@ -62,7 +62,11 @@ const Racket: React.FC<Props> = ({
       <Score scoreColor={color} scorePosition={scorePosition}>
         0
       </Score>
-      <Rectangle rectangleColor={color} left={leftOffset} />
+      <Rectangle
+        rectangleColor={color}
+        left={leftOffset}
+        wrapperPosition={wrapperPosition}
+      />
     </Wrapper>
   );
 };

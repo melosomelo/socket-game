@@ -44,14 +44,19 @@ interface RectangleProps {
   rectangleColor: string;
   // props to initially set the position correctly
   left: number;
+  wrapperPosition: "top" | "bottom";
 }
 
-export const Rectangle = styled.div<RectangleProps>`
+export const Rectangle = styled.div.attrs<RectangleProps>((props) => ({
+  style: {
+    left: `${props.left}px`,
+  },
+}))<RectangleProps>`
   height: 75px;
   width: 400px;
 
   background-color: ${(props) => props.rectangleColor};
 
   position: absolute;
-  left: ${(props) => props.left}px;
+  ${(props) => (props.wrapperPosition === "top" ? `top: 0;` : "bottom: 0;")}
 `;

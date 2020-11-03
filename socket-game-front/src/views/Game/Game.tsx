@@ -1,10 +1,9 @@
-import React, { useEffect } from "react";
+import React from "react";
 
 import Racket from "../../components/Racket/Racket";
 import Ball from "../../components/Ball/Ball";
 import useBallMovement from "../../hooks/useBallMovement";
 import useRacketMovement from "../../hooks/useRacketMovement";
-import socket from "../../socket";
 
 interface Props {
   playerColor: string | null;
@@ -17,11 +16,14 @@ const Game: React.FC<Props> = ({
   ballDirection,
   setBallDirection,
 }) => {
+  const { playerLeftOffset, oponentLeftOffset } = useRacketMovement();
+
   const { leftOffset, topOffset } = useBallMovement(
     ballDirection,
-    setBallDirection
+    setBallDirection,
+    playerLeftOffset,
+    oponentLeftOffset
   );
-  const { playerLeftOffset, oponentLeftOffset } = useRacketMovement();
 
   /*
   const [playerLeftOffset, setPlayerLeftOffset] = useState(() => {

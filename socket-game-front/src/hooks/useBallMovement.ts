@@ -7,11 +7,14 @@ import handleCollision from "../utils/handleCollision";
 
 type setBallDirectionFN = React.Dispatch<React.SetStateAction<BallDirection>>;
 
+//outsorces the logic behind the ball movement
 function useBallMovement(
   ballDirection: BallDirection,
-  setBallDirection: React.Dispatch<React.SetStateAction<BallDirection | null>>
+  setBallDirection: React.Dispatch<React.SetStateAction<BallDirection | null>>,
+  playerLeftOffset: number,
+  oponentLeftOffset: number
 ) {
-  console.log(ballDirection, setBallDirection);
+  /*
   const [direction, setDirection] = useState<BallDirection>(() => {
     let direction: BallDirection = {
       y: null,
@@ -33,12 +36,15 @@ function useBallMovement(
     }
     return direction;
   });
+  */
 
   //setting its initial position
   const [leftOffset, setLeftOffset] = useState(() => {
     return (document.documentElement.clientWidth - 42) / 2;
   });
   const [topOffset, setTopOffset] = useState(() => {
+    //95
+    //document.documentElement.clientHeight - 95 + 42
     return (document.documentElement.clientHeight - 42) / 2;
   });
 
@@ -48,9 +54,9 @@ function useBallMovement(
       ballDirection,
       setBallDirection as setBallDirectionFN,
       leftOffset,
-      setLeftOffset,
       topOffset,
-      setTopOffset
+      playerLeftOffset,
+      oponentLeftOffset
     );
   }, 1000 / 24);
 

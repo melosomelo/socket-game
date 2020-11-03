@@ -1,38 +1,53 @@
-type Direction = "left" | "right" | "up" | "down";
+function calculateCollisionsWithRackets(
+  direction: BallDirection,
+  ballLeftOffset: number,
+  ballTopOffset: number,
+  playerLeftOffset: number,
+  oponentLeftOffset: number,
+  clientHeight: number
+) {
+  const hasCollidedWithPlayer =
+    ballLeftOffset >= playerLeftOffset && //needs to be within the racket's width
+    ballLeftOffset <= playerLeftOffset + 400 &&
+    clientHeight - (45 + 92 + ballTopOffset) < 5 && //checks if the ball is vertically on the same level as the racket
+    direction.y === "down";
+  const hasCollidedWithOpponent =
+    ballLeftOffset >= oponentLeftOffset &&
+    ballLeftOffset <= oponentLeftOffset + 400 &&
+    ballTopOffset - 95 < 5 && //needs to be smaller than 5 cause the balls moves 5px at a time
+    direction.y === "up";
 
-function oppositeDirection(direction: Direction) {
-  switch (direction) {
-    case "left":
-      return "right";
-    case "right":
-      return "left";
-    case "up":
-      return "down";
-    case "down":
-      return "up";
-  }
+  return hasCollidedWithOpponent || hasCollidedWithPlayer;
 }
 
 function handleCollision(
   direction: BallDirection,
   setDirection: React.Dispatch<React.SetStateAction<BallDirection>>,
-  leftOffset: number,
-  setLeftOffset: React.Dispatch<React.SetStateAction<number>>,
-  topOffset: number,
-  setTopOffset: React.Dispatch<React.SetStateAction<number>>
+  ballLeftOffset: number,
+  ballTopOffset: number,
+  playerLeftOffset: number,
+  opponentLeftOffset: number
 ) {
   const clientWidth = document.documentElement.clientWidth;
   const clientHeight = document.documentElement.clientHeight;
-  //check if has horizontal collision
+  //collisions with the edges of the screen
   const hasHorizontalCollision =
-    (direction.x === "left" && leftOffset === 0) ||
-    (direction.x === "right" && leftOffset === clientWidth - 42);
-  //check if has vertical collision
+    (direction.x === "left" && ballLeftOffset === 0) ||
+    (direction.x === "right" && ballLeftOffset === clientWidth - 42);
   const hasVerticalCollision =
-    (direction.y === "up" && topOffset === 0) ||
-    (direction.y === "down" && topOffset === clientHeight - 42);
+    (direction.y === "up" && ballTopOffset === 0) ||
+    (direction.y === "down" && ballTopOffset === clientHeight - 42);
 
-  if (hasVerticalCollision) {
+  const collisionWithRackets = calculateCollisionsWithRackets(
+    direction,
+    ballLeftOffset,
+    ballTopOffset,
+    playerLeftOffset,
+    opponentLeftOffset,
+    clientHeight
+  );
+
+  if (hasVerticalCollision || collisionWithRackets) {
     setDirection((prevState) => ({
       ...prevState,
       y: prevState.y === "down" ? "up" : "down",
