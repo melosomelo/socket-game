@@ -1,25 +1,33 @@
 import { BallDirection } from "../global";
 
-function setBallInitialDirection(): BallDirection {
-  let direction: BallDirection = {
+function setBallInitialDirection(): BallDirection[] {
+  let playerOneDirection: BallDirection = {
     y: null,
     x: null,
+  };
+  let playerTwoDirection: BallDirection = {
+    x: null,
+    y: null,
   };
 
   let randomNumber = Math.random();
   if (randomNumber < 0.5) {
-    direction.y = "down";
+    playerOneDirection.y = "down";
+    playerTwoDirection.y = "up";
   } else {
-    direction.y = "up";
+    playerOneDirection.y = "up";
+    playerTwoDirection.y = "down";
   }
 
   randomNumber = Math.random();
   if (randomNumber < 0.5) {
-    direction.x = "right";
+    playerOneDirection.x = "right";
+    playerTwoDirection.x = "left";
   } else {
-    direction.x = "left";
+    playerOneDirection.x = "left";
+    playerTwoDirection.x = "right";
   }
-  return direction;
+  return [playerOneDirection, playerTwoDirection];
 }
 
 export default setBallInitialDirection;

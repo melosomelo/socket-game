@@ -38,9 +38,10 @@ io.on("connection", (socket) => {
   //player 2 signals that he is connected and the game should start
   socket.on("match start", () => {
     // Defining the initial directions of the ball
-    const ballInitialDirection: BallDirection = setBallInitialDirection();
+    const [playerOneDirection, playerTwoDirection] = setBallInitialDirection();
+    connectedPlayers[0].socket.emit("match start", playerOneDirection);
+    connectedPlayers[1].socket.emit("match start", playerTwoDirection);
 
-    io.emit("match start", ballInitialDirection);
     gameStatus = "Start";
   });
 
