@@ -70,6 +70,7 @@ io.on("connection", (socket) => {
     console.log(`The game is over. Winner is ${winnerColor}`);
     io.emit("game over", winnerColor);
     gameStatus = "Over";
+    gameStatus = "Waiting for connection";
   });
 
   socket.on("disconnect", () => {
