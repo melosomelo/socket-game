@@ -12,32 +12,10 @@ function useBallMovement(
   ballDirection: BallDirection,
   setBallDirection: React.Dispatch<React.SetStateAction<BallDirection | null>>,
   playerLeftOffset: number,
-  oponentLeftOffset: number
+  oponentLeftOffset: number,
+  setPlayerScore: React.Dispatch<React.SetStateAction<number>>,
+  setOpponentScore: React.Dispatch<React.SetStateAction<number>>
 ) {
-  /*
-  const [direction, setDirection] = useState<BallDirection>(() => {
-    let direction: BallDirection = {
-      y: null,
-      x: null,
-    };
-
-    let randomNumber = Math.random();
-    if (randomNumber < 0.5) {
-      direction.y = "down";
-    } else {
-      direction.y = "up";
-    }
-
-    randomNumber = Math.random();
-    if (randomNumber < 0.5) {
-      direction.x = "right";
-    } else {
-      direction.x = "left";
-    }
-    return direction;
-  });
-  */
-
   //setting its initial position
   const [leftOffset, setLeftOffset] = useState(() => {
     return (document.documentElement.clientWidth - 42) / 2;
@@ -49,15 +27,21 @@ function useBallMovement(
   });
 
   useInterval(() => {
-    moveBall(ballDirection, setLeftOffset, setTopOffset);
-    handleCollision(
-      ballDirection,
-      setBallDirection as setBallDirectionFN,
-      leftOffset,
-      topOffset,
-      playerLeftOffset,
-      oponentLeftOffset
-    );
+    if (ballDirection.x !== null && ballDirection.y !== null) {
+      moveBall(ballDirection, setLeftOffset, setTopOffset);
+      handleCollision(
+        ballDirection,
+        setBallDirection as setBallDirectionFN,
+        leftOffset,
+        topOffset,
+        playerLeftOffset,
+        oponentLeftOffset,
+        setPlayerScore,
+        setOpponentScore,
+        setLeftOffset,
+        setTopOffset
+      );
+    }
   }, 1000 / 24);
 
   return { leftOffset, topOffset };

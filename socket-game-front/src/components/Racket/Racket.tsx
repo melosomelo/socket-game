@@ -7,6 +7,7 @@ interface Props {
   scorePosition: "topLeft" | "bottomRight";
   wrapperPosition: "top" | "bottom";
   leftOffset: number;
+  score: number;
 }
 
 const Racket: React.FC<Props> = ({
@@ -15,52 +16,12 @@ const Racket: React.FC<Props> = ({
   scorePosition,
   wrapperPosition,
   leftOffset,
+  score,
 }) => {
-  /*
-  const [leftOffset, setLeftOffset] = useState(() => {
-    return (document.documentElement.clientWidth - 400) / 2;
-  });
-  */
-
-  const [
-    currentDirection,
-    setCurrentDirection,
-  ] = useState<null | RacketDirection>(null);
-
-  /*
-  useInterval(() => {
-    if (currentDirection !== null) {
-      moveRacket(currentDirection, setLeftOffset, true);
-    }
-  }, 1000 / 24);
-
-  useEffect(() => {
-    //we only set the key capture event if this racket is controlled by the player
-    if (controlledByPlayer) {
-      document.onkeydown = (event: KeyboardEvent) => {
-        switch (event.key) {
-          case "ArrowLeft":
-            setCurrentDirection("left");
-            break;
-          case "ArrowRight":
-            setCurrentDirection("right");
-            break;
-        }
-      };
-    }
-
-    socket.on("other player movement", (direction: RacketDirection) => {
-      if (!controlledByPlayer) {
-        moveRacket(direction, setLeftOffset, false);
-      }
-    });
-  }, []);
-  */
-
   return (
     <Wrapper wrapperPosition={wrapperPosition}>
       <Score scoreColor={color} scorePosition={scorePosition}>
-        0
+        {score}
       </Score>
       <Rectangle
         rectangleColor={color}

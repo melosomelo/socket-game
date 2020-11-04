@@ -45,6 +45,10 @@ function App() {
       setBallDirection(direction);
     });
 
+    socket.on("new ball direction", (direction: BallDirection) => {
+      setBallDirection(direction);
+    });
+
     return () => {
       socket.disconnect();
     };

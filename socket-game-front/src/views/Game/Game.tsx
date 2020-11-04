@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import Racket from "../../components/Racket/Racket";
 import Ball from "../../components/Ball/Ball";
@@ -16,53 +16,19 @@ const Game: React.FC<Props> = ({
   ballDirection,
   setBallDirection,
 }) => {
+  const [playerScore, setPlayerScore] = useState(0);
+  const [opponentScore, setOpponentScore] = useState(0);
+
   const { playerLeftOffset, oponentLeftOffset } = useRacketMovement();
 
   const { leftOffset, topOffset } = useBallMovement(
     ballDirection,
     setBallDirection,
     playerLeftOffset,
-    oponentLeftOffset
+    oponentLeftOffset,
+    setPlayerScore,
+    setOpponentScore
   );
-
-  /*
-  const [playerLeftOffset, setPlayerLeftOffset] = useState(() => {
-    return (document.documentElement.clientWidth - 400) / 2;
-  });
-
-  const [
-    playerDirection,
-    setPlayerDirection,
-  ] = useState<RacketDirection | null>(null);
-
-  const [oponentLeftOffset, setOponentLeftOffset] = useState(() => {
-    return (document.documentElement.clientWidth - 400) / 2;
-  });
-
-  useEffect(() => {
-    document.onkeydown = (event: KeyboardEvent) => {
-      switch (event.key) {
-        case "ArrowLeft":
-          setPlayerDirection("left");
-          break;
-        case "ArrowRight":
-          setPlayerDirection("right");
-          break;
-      }
-    };
-
-    socket.on("other player movement", (direction: RacketDirection) => {
-      console.log("player is moving to " + direction);
-      moveRacket(direction, setOponentLeftOffset, false);
-    });
-  }, []);
-
-  useInterval(() => {
-    if (playerDirection !== null) {
-      moveRacket(playerDirection, setPlayerLeftOffset, true);
-    }
-  }, 1000 / 24);
-  */
 
   return (
     <>
@@ -72,6 +38,7 @@ const Game: React.FC<Props> = ({
         wrapperPosition="top"
         controlledByPlayer={false}
         leftOffset={oponentLeftOffset}
+        score={opponentScore}
       />
       <Ball leftOffset={leftOffset} topOffset={topOffset} />
       <Racket
@@ -80,6 +47,7 @@ const Game: React.FC<Props> = ({
         scorePosition="bottomRight"
         wrapperPosition="bottom"
         leftOffset={playerLeftOffset}
+        score={playerScore}
       />
     </>
   );

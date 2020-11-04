@@ -11,6 +11,7 @@ const io = socketio(server);
 
 let connectedPlayers: Array<Player> = [];
 let gameStatus: GameStatus = "Waiting for connection";
+let newBallRequests = 0;
 
 io.on("connection", (socket) => {
   if (connectedPlayers.length === 0) {
@@ -51,6 +52,18 @@ io.on("connection", (socket) => {
     );
 
     otherPlayer?.socket.emit("other player movement", direction);
+  });
+
+  socket.on("new ball direction", () => {
+    if (newBallRequests === 0) {
+      newBallRequests += 1;
+      return;
+    }
+
+    newBallRequests = 0;
+    const [playerOneDirection, playerTwoDirection] = setBallInitialDirection();
+    connectedPlayers[0].socket.emit("new ball direction", playerOneDirection);
+    connectedPlayers[1].socket.emit("new ball direction", playerTwoDirection);
   });
 
   socket.on("disconnect", () => {

@@ -22,10 +22,10 @@ function setBallInitialDirection(): BallDirection[] {
   randomNumber = Math.random();
   if (randomNumber < 0.5) {
     playerOneDirection.x = "right";
-    playerTwoDirection.x = "left";
+    playerTwoDirection.x = "right";
   } else {
     playerOneDirection.x = "left";
-    playerTwoDirection.x = "right";
+    playerTwoDirection.x = "left";
   }
   return [playerOneDirection, playerTwoDirection];
 }
