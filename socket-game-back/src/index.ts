@@ -96,4 +96,4 @@ app.use((req, res) => {
   res.send("<h1>eai!</h1>");
 });
 
-server.listen(5000);
+server.listen(process.env.PORT || 5000);
