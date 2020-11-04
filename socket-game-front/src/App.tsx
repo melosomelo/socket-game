@@ -68,7 +68,7 @@ function App() {
   }, []);
 
   useEffect(() => {
-    if (playerScore === 1) {
+    if (playerScore === 5) {
       socket.emit("game over", playerColor);
     }
   }, [playerScore, opponentScore]);
