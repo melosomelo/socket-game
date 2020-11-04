@@ -9,7 +9,8 @@ type GameStatus =
   | "Player 1 connected"
   | "Player 2 connected"
   | "Start"
-  | "Waiting for connection";
+  | "Waiting for connection"
+  | "Over";
 
 type RacketDirection = "left" | "right";
 

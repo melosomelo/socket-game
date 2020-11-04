@@ -66,6 +66,12 @@ io.on("connection", (socket) => {
     connectedPlayers[1].socket.emit("new ball direction", playerTwoDirection);
   });
 
+  socket.on("game over", (winnerColor: string) => {
+    console.log(`The game is over. Winner is ${winnerColor}`);
+    io.emit("game over", winnerColor);
+    gameStatus = "Over";
+  });
+
   socket.on("disconnect", () => {
     io.emit("player disconnected!");
     /* We need to worry about a disconnect in two cases: 

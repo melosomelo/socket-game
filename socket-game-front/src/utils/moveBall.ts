@@ -5,6 +5,7 @@ function moveBall(
 ) {
   const clientWidth = document.documentElement.clientWidth;
   const clientHeight = document.documentElement.clientHeight;
+
   switch (direction.x) {
     case "left":
       setLeftOffset((prevState) => {

@@ -5,12 +5,14 @@ import Loading from "./views/Loading/Loading";
 import Game from "./views/Game/Game";
 import PlayerOneConnected from "./views/PlayerOneConnected/PlayerOneConnected";
 import BothPlayersConnected from "./views/BothPlayersConnected/BothPlayersConnected";
+import GameOver from "./views/GameOver/GameOver";
 
 type GameStatus =
   | "Loading..." //client is talking to the server in order to see in which state the match is
   | "Player 1 connected"
   | "Player 2 connected"
-  | "Start";
+  | "Start"
+  | "Over";
 
 function App() {
   const [gameStatus, setGameStatus] = useState<GameStatus>("Loading...");
@@ -18,6 +20,11 @@ function App() {
   const [ballDirection, setBallDirection] = useState<BallDirection | null>(
     null
   );
+
+  const [winner, setWinner] = useState<null | string>(null);
+
+  const [playerScore, setPlayerScore] = useState(0);
+  const [opponentScore, setOpponentScore] = useState(0);
 
   useEffect(() => {
     socket.on("player 1 connected", () => {
@@ -49,10 +56,22 @@ function App() {
       setBallDirection(direction);
     });
 
+    socket.on("game over", (winnerColor: string) => {
+      console.log(winnerColor);
+      setWinner(winnerColor);
+      setGameStatus("Over");
+    });
+
     return () => {
       socket.disconnect();
     };
   }, []);
+
+  useEffect(() => {
+    if (playerScore === 1) {
+      socket.emit("game over", playerColor);
+    }
+  }, [playerScore, opponentScore]);
 
   if (gameStatus === "Loading...") {
     return <Loading />;
@@ -66,7 +85,15 @@ function App() {
         playerColor={playerColor}
         ballDirection={ballDirection as BallDirection}
         setBallDirection={setBallDirection}
+        playerScore={playerScore}
+        setPlayerScore={setPlayerScore}
+        opponentScore={opponentScore}
+        setOpponentScore={setOpponentScore}
       />
+    );
+  } else if (gameStatus === "Over") {
+    return (
+      <GameOver winner={winner as string} playerColor={playerColor as string} />
     );
   }
 
