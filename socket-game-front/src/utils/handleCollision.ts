@@ -34,6 +34,7 @@ function handleCollision(
   setBalLeftOffset: React.Dispatch<React.SetStateAction<number>>,
   setBallTopOffset: React.Dispatch<React.SetStateAction<number>>
 ) {
+  console.log("heya its byo");
   const clientWidth = document.documentElement.clientWidth;
   const clientHeight = document.documentElement.clientHeight;
 

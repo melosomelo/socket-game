@@ -49,9 +49,8 @@ function App() {
     });
 
     socket.on("match start", (direction: BallDirection) => {
-      setGameStatus("Start");
-
       setBallDirection(direction);
+      setGameStatus("Start");
     });
 
     socket.on("new ball direction", (direction: BallDirection) => {

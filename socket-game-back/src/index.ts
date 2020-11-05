@@ -45,6 +45,10 @@ io.on("connection", (socket) => {
     connectedPlayers[1].socket.emit("match start", playerTwoDirection);
 
     gameStatus = "Start";
+
+    ballMovementInterval = setInterval(() => {
+      io.emit("move ball");
+    }, 1000);
   });
 
   socket.on("move racket", (direction: RacketDirection) => {
@@ -70,6 +74,7 @@ io.on("connection", (socket) => {
   socket.on("game over", (winnerColor: string) => {
     console.log(`The game is over. Winner is ${winnerColor}`);
     io.emit("game over", winnerColor);
+    clearInterval(ballMovementInterval);
     gameStatus = "Over";
     gameStatus = "Waiting for connection";
   });
@@ -88,9 +93,9 @@ io.on("connection", (socket) => {
       (player) => player.socket.id === socket.id
     );
     connectedPlayers.splice(disconnectedPlayerIndex);
-    console.log(connectedPlayers.length, "eaiiii");
 
     if (gameStatus === "Start") {
+      clearInterval(ballMovementInterval);
       if (connectedPlayers.length === 0) {
         gameStatus = "Waiting for connection";
       } else if (connectedPlayers.length === 1) {

@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import useInterval from "../hooks/useInterval";
 
 import moveBall from "../utils/moveBall";
 import handleCollision from "../utils/handleCollision";
+import socket from "../socket";
 
 type setBallDirectionFN = React.Dispatch<React.SetStateAction<BallDirection>>;
 
@@ -26,8 +27,20 @@ function useBallMovement(
     return (document.documentElement.clientHeight - 42) / 2;
   });
 
+  const [ballMovements, setBallMovements] = useState(0);
+
+  useEffect(() => {
+    socket.on("move ball", () => {
+      setBallMovements((prevState) => prevState + 1);
+    });
+  }, []);
+
   useInterval(() => {
-    if (ballDirection.x !== null && ballDirection.y !== null) {
+    if (
+      ballDirection.x !== null &&
+      ballDirection.y !== null &&
+      ballMovements !== 0
+    ) {
       moveBall(ballDirection, setLeftOffset, setTopOffset);
       handleCollision(
         ballDirection,
