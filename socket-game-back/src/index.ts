@@ -74,7 +74,7 @@ io.on("connection", (socket) => {
   });
 
   socket.on("disconnect", () => {
-    io.emit("player disconnected!");
+    console.log("eai");
     /* We need to worry about a disconnect in two cases: 
       1. The game is almost starting. The server is awaiting the socket from the client to officially start 
       the match.
@@ -86,9 +86,17 @@ io.on("connection", (socket) => {
     const disconnectedPlayerIndex = connectedPlayers.findIndex(
       (player) => player.socket.id === socket.id
     );
-    const [disconnectedPlayer] = connectedPlayers.splice(
-      disconnectedPlayerIndex
-    );
+    connectedPlayers.splice(disconnectedPlayerIndex);
+    console.log(connectedPlayers.length, "eaiiii");
+
+    if (gameStatus === "Start") {
+      if (connectedPlayers.length === 0) {
+        gameStatus = "Waiting for connection";
+      } else if (connectedPlayers.length === 1) {
+        //if the length is one, then one player left in the middle of the game
+        connectedPlayers[0].socket.emit("other player disconnected");
+      }
+    }
   });
 });
 

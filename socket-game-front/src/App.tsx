@@ -6,13 +6,15 @@ import Game from "./views/Game/Game";
 import PlayerOneConnected from "./views/PlayerOneConnected/PlayerOneConnected";
 import BothPlayersConnected from "./views/BothPlayersConnected/BothPlayersConnected";
 import GameOver from "./views/GameOver/GameOver";
+import PlayerDisconnected from "./views/PlayerDisconnected/PlayerDisconnected";
 
 type GameStatus =
   | "Loading..." //client is talking to the server in order to see in which state the match is
   | "Player 1 connected"
   | "Player 2 connected"
   | "Start"
-  | "Over";
+  | "Over"
+  | "Player disconnected";
 
 function App() {
   const [gameStatus, setGameStatus] = useState<GameStatus>("Loading...");
@@ -56,6 +58,10 @@ function App() {
       setBallDirection(direction);
     });
 
+    socket.on("other player disconnected", () => {
+      setGameStatus("Player disconnected");
+    });
+
     socket.on("game over", (winnerColor: string) => {
       console.log(winnerColor);
       setWinner(winnerColor);
@@ -95,6 +101,8 @@ function App() {
     return (
       <GameOver winner={winner as string} playerColor={playerColor as string} />
     );
+  } else if (gameStatus === "Player disconnected") {
+    return <PlayerDisconnected />;
   }
 
   return <h1>EAi</h1>;
