@@ -12,6 +12,7 @@ const io = socketio(server);
 let connectedPlayers: Array<Player> = [];
 let gameStatus: GameStatus = "Waiting for connection";
 let newBallRequests = 0;
+let ballMovementInterval: NodeJS.Timeout;
 
 io.on("connection", (socket) => {
   if (connectedPlayers.length === 0) {

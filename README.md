@@ -14,7 +14,13 @@ So, I create this project that combines these two objectives into one. It's a mu
 
 ## What I took from this experience
 
-Nothing so far. I just started!
+1. **I still need to learn a lot of Typescript**. In general, I thought that I got the "basics" of Typescript down, but there are a lot of advanced topics to study.
+
+2. **I need to understand how configuring Typescript works**. Different enviroments require different configurations, and since this is my first project, I used some presets that I found online. I need to understand how to actually configure Typescript and its compiler.
+
+3. **Webscokets are very straightforward**. I used the socketio library, and it's pretty easy to use and to get accustomed to. I'll definitely use it again.
+
+4. **Typescript is really powerfull**. It just gives your code a whole new layer of security and quality. It gave me the hability of modeling my view of the problem more easily and securely.
 
 ## Project's Mockups
 
