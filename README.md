@@ -2,6 +2,10 @@
 
 This is a ping pong websocket game that I made in order to get more familiar with some tools and concepts.
 
+The project is live in this URL: https://socket-game.vercel.app/
+
+There may be some bugs that I'm still working to fix, but for the most part it's working!
+
 ## Motivations
 
 I had some motivations coming into this project:
